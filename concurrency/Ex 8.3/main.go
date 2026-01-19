@@ -11,6 +11,8 @@ import (
 	"time"
 )
 
+/* ANCHOR - Example: Concurrent Echo Server
+*/
 func main() {
 	port := flag.Int("Port", 8000, "listening on port")
 	flag.Parse()

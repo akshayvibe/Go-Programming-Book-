@@ -12,6 +12,13 @@ import (
 	"path/filepath"
 )
 
+/*ANCHOR - 
+Exercis e 8.2: Implement a concurrent File Transfer Pro tocol (FTP) server. The server should
+interpret commands from each client such as cd to change directory, ls to list a director y, get
+to send the contents of a file, and close to close the connection. You can use the standard ftp
+command as the client, or write your own.
+
+*/
 func main() {
 	port := flag.Int("Port",8021,"is listenning")
 	flag.Parse()
