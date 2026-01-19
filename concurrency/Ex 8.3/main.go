@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	// "log/slog"
 	"net"
 	"strings"
 	"time"
@@ -14,6 +15,7 @@ func main() {
 	port := flag.Int("Port", 8000, "listening on port")
 	flag.Parse()
 	addr := fmt.Sprintf("localhost:%d", *port)
+	log.Println("Server is starting...")
 	listner, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatal(err)
@@ -24,18 +26,22 @@ func main() {
 			log.Print(err)
 			continue
 		}
-		handleConn(conn)
+		log.Println("Client connected to",conn.RemoteAddr())
+		go handleConn(conn)
 
+		
 	}
+
 }
 func handleConn(c net.Conn) {
+	// defer 
 	defer c.Close()
 	input := bufio.NewScanner(c)
 
 	for input.Scan() {
-		echo(c,input.Text(),1*time.Second)
+		 go echo(c,input.Text(),1*time.Second)
 	}
-	c.Close()
+	log.Println("Client disconnected to",c.RemoteAddr())
 }
 func echo(c net.Conn, shout string, delay time.Duration) {
 	fmt.Fprintln(c, "\t", strings.ToUpper(shout))
