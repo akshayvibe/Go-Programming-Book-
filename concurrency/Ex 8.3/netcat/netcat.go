@@ -14,7 +14,10 @@ func main() {
 		log.Fatal(err)
 	}
 	defer conn.Close()
-	mustCopy(os.Stdout, conn)
+	//this will write to the memory 
+	go mustCopy(os.Stdout, conn)
+	//this will write to the terminal
+	mustCopy(conn,os.Stdin)
 }
 func mustCopy(dst io.Writer, src io.Reader) {
 	if _, err := io.Copy(dst, src); err != nil {
