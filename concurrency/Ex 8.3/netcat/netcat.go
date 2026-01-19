@@ -14,10 +14,11 @@ func main() {
 		log.Fatal(err)
 	}
 	defer conn.Close()
-	//this will write to the memory 
-	go mustCopy(os.Stdout, conn)
-	//this will write to the terminal
-	mustCopy(conn,os.Stdin)
+// 1. READS from the network (conn) and WRITES to your screen (os.Stdout)
+go mustCopy(os.Stdout, conn) 
+
+// 2. READS from your keyboard (os.Stdin) and WRITES to the network (conn)
+mustCopy(conn, os.Stdin)	
 }
 func mustCopy(dst io.Writer, src io.Reader) {
 	if _, err := io.Copy(dst, src); err != nil {
