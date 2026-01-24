@@ -53,13 +53,19 @@ func main() {
 	// Close the connection.
 	// This causes the server to see EOF and the background goroutine's
 	// io.Copy to return.
-	conn.Close()
 
+	
+	//NOTE - exercise code
+	if tcpcon,ok:=conn.(*net.TCPConn);ok{
+		tcpcon.CloseWrite()
+	}
+	
 	// Receive from done.
 	// This blocks until the background goroutine signals completion.
 	// It establishes a happens-before relationship, guaranteeing
 	// that the goroutine has finished before main exits.
 	<-done
+	conn.Close()	
 }
 
 // mustCopy copies data from src to dst and exits the program on error.
